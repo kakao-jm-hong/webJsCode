@@ -1417,7 +1417,22 @@ var Node = /*#__PURE__*/function (_Base) {
     _this.nodeUrl = _config.NODE_URL.replace('@id', '');
     _this.image = image;
     _this.loading = loading;
-    _this.breadcrumb = breadcrumb;
+    _this.breadcrumb = breadcrumb; // 생성할 때 한번만 생성.
+
+    _this.container.addEventListener('click', function (e) {
+      var $node = e.target.closest('.Node');
+
+      if ($node) {
+        var nodeId = $node.dataset.nodeId;
+
+        if (nodeId) {
+          _this.onClick(nodeId);
+        } else {
+          _this.onBackClick();
+        }
+      }
+    });
+
     return _this;
   }
 
@@ -1460,6 +1475,7 @@ var Node = /*#__PURE__*/function (_Base) {
     value: function onBackClick() {
       var _this2 = this;
 
+      this.store.getCache();
       var data = this.store.data = this.store.deepsPop();
       this.store.routePop();
       this.store.update();
@@ -1472,18 +1488,16 @@ var Node = /*#__PURE__*/function (_Base) {
       data.forEach(function (element) {
         _this2.addHtml(_this2.getData(element));
       });
-      this.updateView();
-      this.container.querySelectorAll('.Node').forEach(function ($node) {
-        $node.addEventListener('click', function (e) {
-          var id = e.target.dataset.nodeId;
-
-          if (id) {
-            _this2.onClick(id);
-          } else {
-            _this2.onBackClick();
-          }
-        });
-      });
+      this.updateView(); // this.container.querySelectorAll('.Node').forEach($node => {
+      //     $node.addEventListener('click', (e) => {
+      //         const id = e.target.closest('.Node');
+      //         if(id){
+      //             this.onClick(id);
+      //         }else{
+      //             this.onBackClick();
+      //         }
+      //     })
+      // });
     }
   }, {
     key: "getData",
@@ -1527,20 +1541,18 @@ var Node = /*#__PURE__*/function (_Base) {
                 data.forEach(function (element) {
                   _this3.addHtml(_this3.getData(element));
                 });
-                this.updateView();
-                this.container.querySelectorAll('.Node').forEach(function ($node) {
-                  $node.addEventListener('click', function (e) {
-                    var id = e.target.dataset.nodeId;
+                this.updateView(); // this.container.querySelectorAll('.Node').forEach($node => {
+                //     $node.addEventListener('click', (e) => {
+                //         const id = e.target.dataset.nodeId;
+                //         if(id){
+                //             this.onClick(id);
+                //         }else{
+                //             this.onBackClick();
+                //         }
+                //     })
+                // });
 
-                    if (id) {
-                      _this3.onClick(id);
-                    } else {
-                      _this3.onBackClick();
-                    }
-                  });
-                });
-
-              case 11:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -1736,13 +1748,21 @@ var Store = /*#__PURE__*/function () {
     this.deeps = [];
     this.root = true;
     this.data = [];
+    this.cache = new Map();
   }
 
   (0, _createClass2.default)(Store, [{
+    key: "getCache",
+    value: function getCache(id) {
+      var obj = this.cache.get(id);
+      console.log("obj " + obj);
+      if (obj === null || obj === undefined) return null;
+      return obj;
+    }
+  }, {
     key: "update",
     value: function update() {
       this.root = this.route.length === 1;
-      console.log(this.root);
     }
   }, {
     key: "routePush",
@@ -1828,7 +1848,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53630" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50495" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

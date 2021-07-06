@@ -4,11 +4,19 @@ export class Store {
         this.deeps = [];
         this.root = true;
         this.data = [];
+        this.cache = new Map();
+    }
+
+    getCache(id) {
+        const obj = this.cache.get(id);
+        console.log("obj "+ obj);
+        if(obj===null || obj===undefined)
+            return null;
+        return obj;
     }
 
     update() {
         this.root = this.route.length === 1;
-        console.log(this.root);
     }
 
     routePush(name) {

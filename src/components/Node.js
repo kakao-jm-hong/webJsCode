@@ -22,6 +22,21 @@ export class Node extends Base{
         this.image= image;
         this.loading = loading;
         this.breadcrumb = breadcrumb;
+
+        // 생성할 때 한번만 생성.
+        this.container.addEventListener('click', (e) => {
+            const $node = e.target.closest('.Node');
+
+            if($node) {
+                const {nodeId} = $node.dataset;
+
+                if(nodeId) {
+                    this.onClick(nodeId);
+                }else{
+                    this.onBackClick();
+                }
+            }
+        })
     }
 
     addHtml(str) {
@@ -56,6 +71,7 @@ export class Node extends Base{
     }
 
     onBackClick() {
+        this.store.getCache();
         const data = this.store.data = this.store.deepsPop();
         this.store.routePop();
         this.store.update();
@@ -74,16 +90,16 @@ export class Node extends Base{
 
         this.updateView();
 
-        this.container.querySelectorAll('.Node').forEach($node => {
-            $node.addEventListener('click', (e) => {
-                const id = e.target.dataset.nodeId;
-                if(id){
-                    this.onClick(id);
-                }else{
-                    this.onBackClick();
-                }
-            })
-        });
+        // this.container.querySelectorAll('.Node').forEach($node => {
+        //     $node.addEventListener('click', (e) => {
+        //         const id = e.target.closest('.Node');
+        //         if(id){
+        //             this.onClick(id);
+        //         }else{
+        //             this.onBackClick();
+        //         }
+        //     })
+        // });
 
     }
 
@@ -105,7 +121,7 @@ export class Node extends Base{
         const data = this.store.data = await api.getData();
         this.loading.onChange();
         this.breadcrumb.render();
-        
+
         // root 아닐 경우 이전으로가기 추가.
         if(!this.store.root) {
             this.addHtml(`
@@ -120,15 +136,15 @@ export class Node extends Base{
 
         this.updateView();
 
-        this.container.querySelectorAll('.Node').forEach($node => {
-            $node.addEventListener('click', (e) => {
-                const id = e.target.dataset.nodeId;
-                if(id){
-                    this.onClick(id);
-                }else{
-                    this.onBackClick();
-                }
-            })
-        });
+        // this.container.querySelectorAll('.Node').forEach($node => {
+        //     $node.addEventListener('click', (e) => {
+        //         const id = e.target.dataset.nodeId;
+        //         if(id){
+        //             this.onClick(id);
+        //         }else{
+        //             this.onBackClick();
+        //         }
+        //     })
+        // });
     }
 }
