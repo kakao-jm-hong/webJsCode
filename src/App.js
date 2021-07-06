@@ -1,21 +1,21 @@
-import {Test} from './components/Test.js';
+import {Image} from './components/Image.js';
+import {Loading} from './components/Loading.js';
+import {Node} from './components/Node.js';
+import {Breadcrumb} from './components/Breadcrumb.js';
 
 const template =`
-    {{__Template__}}
+    <nav id="breadcrumb" class="Breadcrumb"></nav>
+    <div id="node" class="Nodes"></div>
 `
 
-const testComponents = `
-    <div id="test"></div>
-`;
-
 export default class App {
-    constructor(containerId) {
+    constructor(containerId, store) {
         const containerElement = document.getElementById(containerId);
 
         if(!containerElement){
             throw '최상위 컨테이너가 없습니다.';
         }
-        
+        this.store = store;
         this.template = template;
         this.renderTemplate = template;
         this.container = containerElement;
@@ -26,16 +26,23 @@ export default class App {
         this.renderTemplate = this.template;
     }
 
-    setTemplateData(key, value) {
-        this.renderTemplate = this.renderTemplate.replace(`{{__${key}__}}`, value);
-    }
-
     render() {
-        this.setTemplateData('Template',testComponents);
         this.updateView();
 
-        // 하위 컴포넌트 추가.
-        this.test = new Test('test');
-        this.test.render();
+        // Image component
+        this.image =  new Image("root");
+        this.image.render();
+
+        // Loadin component
+        this.loading = new Loading("root");
+        this.loading.render();
+
+        // Breadcrumb
+        this.breadcrumb = new Breadcrumb("breadcrumb",this.store);
+        // this.breadcrumb.render();
+
+        // Node component
+        this.node = new Node("node",this.store, this.image, this.loading, this.breadcrumb);
+        this.node.render();
     }
 }

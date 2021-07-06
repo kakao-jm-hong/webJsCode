@@ -13,7 +13,7 @@ export class Api {
     }
 }
 
-export class ChildApi extends Api {
+export class NodeApi extends Api {
     constructor(url) {
         super(url);
     }

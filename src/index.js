@@ -1,5 +1,6 @@
 import App from './App.js';
+import { Store } from './store.js';
 
-console.log('test');
-const app = new App('root');
+const store = new Store();
+const app = new App('root', store);
 app.render();
