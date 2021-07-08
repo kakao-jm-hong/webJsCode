@@ -24,7 +24,7 @@ class Banner {
     }
 
     render() {
-        const data = this.data.banner;
+        const data = this.data;
 
         this.$banner_inner.innerHTML = data
         .map(
