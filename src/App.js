@@ -39,7 +39,6 @@ export default class App {
 
         // Breadcrumb
         this.breadcrumb = new Breadcrumb("breadcrumb",this.store);
-        // this.breadcrumb.render();
 
         // Node component
         this.node = new Node("node",this.store, this.image, this.loading, this.breadcrumb);

@@ -1710,8 +1710,7 @@ var App = /*#__PURE__*/function () {
       this.loading = new _Loading.Loading("root");
       this.loading.render(); // Breadcrumb
 
-      this.breadcrumb = new _Breadcrumb.Breadcrumb("breadcrumb", this.store); // this.breadcrumb.render();
-      // Node component
+      this.breadcrumb = new _Breadcrumb.Breadcrumb("breadcrumb", this.store); // Node component
 
       this.node = new _Node.Node("node", this.store, this.image, this.loading, this.breadcrumb);
       this.node.render();
@@ -1848,7 +1847,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50495" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58353" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
