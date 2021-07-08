@@ -10,15 +10,13 @@ class App {
     this.banner = new Banner( {
       $target
     });
+
     try{
-        this.loadingInfo.onChange();
         const {data} = await api.random50();
         this.banner.setState(data)
-      }catch(e){
+    }catch(e){
         console.error(e);
-      }finally{
-        this.loadingInfo.onChange();
-      }
+    }
    
 
     this.searchInput = new SearchInput({
